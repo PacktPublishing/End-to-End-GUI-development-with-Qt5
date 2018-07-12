@@ -1,0 +1,6 @@
+module cutecomics.gui
+
+BackgroundSelector 1.0 BackgroundSelector.qml
+Composition 1.0 Composition.qml
+Element 1.0 Element.qml
+ShapeSelector 1.0 ShapeSelector.qml

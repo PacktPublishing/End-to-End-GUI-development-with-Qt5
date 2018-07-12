@@ -1,0 +1,90 @@
+<!--ReadingsChartJS.html-->
+<html>
+    <head>
+        <title>ReadingsChartJS</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.4/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+        <script src ="qrc:///qtwebchannel/qwebchannel.js"></script>
+    </head>
+    <body>
+        <div style="position:relative;">
+            <canvas id="my-chart" width=2 height=1></canvas>
+        </div>
+        <script>
+            var date = moment(Date.now()-15000);
+            var chartLabels = [date];
+            var chartData = [null];
+            var i = 0;
+            while (i < 15) {
+                    date = date.clone().add(1, 'seconds');
+                    chartLabels.push(date);
+                    chartData.push(null);
+                    ++i;
+            }
+            var ctx = document.getElementById('my-chart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: 'mockSensor1',
+                        data: chartData,
+                        type: 'line',
+                        borderColor: 'orange',
+                        backgroundColor: 'rgba(0,0,0,0)'
+                    }]
+                },
+                options: {
+                    elements: {
+                        line: {
+                            tension: 0,
+                            fill: false
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            distribution: 'series',
+                            ticks: {
+                                source: 'labels'
+                            },
+                            time: {
+                                unit: 'second',
+                                displayFormats: {
+                                    second: 'H:mm:ss'
+                                }
+                            }
+                        }]
+                    }
+                }
+            });
+
+            function addData(chart, label, data) {
+                chart.data.labels.push(label);
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data.push(data);
+                });
+                chart.update();
+            }
+
+            function removeData(chart) {
+                chart.data.labels.shift();
+                chart.data.datasets.forEach((dataset) => {
+                    dataset.data.shift();
+                });
+                chart.update();
+            }
+
+            new QWebChannel(qt.webChannelTransport, function(channel) {
+                window.receiverChannel = channel.objects.receiverChannel;
+
+                receiverChannel.readingsProcessed.connect(function() {
+                    if (arguments[0][0]) {
+                        removeData(chart);
+                        addData(chart, arguments[0][0]["timestamp"], arguments[0][0]["value"]);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

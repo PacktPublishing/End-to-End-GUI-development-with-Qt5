@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ReadingsChart.qml</file>
+        <file>cmmonitor_en_US.qm</file>
+        <file>cmmonitor_it_IT.qm</file>
+        <file>ReadingsChartJS.html</file>
+    </qresource>
+</RCC>

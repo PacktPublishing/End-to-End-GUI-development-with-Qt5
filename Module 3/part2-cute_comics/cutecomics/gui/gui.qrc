@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/qt-project.org/imports/cutecomics/gui">
+        <file>TableSurface.qml</file>
+        <file>ComicPage.qml</file>
+        <file>CCPanels.qml</file>
+        <file>ComicPanel.qml</file>
+        <file>PanelButton.qml</file>
+        <file>Composition.qml</file>
+        <file>Element.qml</file>
+        <file>qmldir</file>
+        <file>ShapeSelector.qml</file>
+        <file>BackgroundSelector.qml</file>
+        <file>Preview3D.qml</file>
+    </qresource>
+</RCC>
